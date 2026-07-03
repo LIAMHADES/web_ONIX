@@ -428,10 +428,53 @@ nav{
   color:var(--copper-warm);
   border-bottom-color:var(--copper)
 }
-.tab-panel{display:none}
-.tab-panel.active{
+/* ─── SECTORES — SLIDER DESLIZABLE ──────────────────────────────
+   El usuario mueve el carrusel arrastrando/deslizando (touch, mouse
+   drag o trackpad). Sin flechas ni autoplay: el movimiento SIEMPRE
+   lo inicia el usuario. scroll-snap ordena cada slide al soltar.
+   El .tab-viewport actúa como máscara overflow:hidden para evitar
+   fugas visuales de paneles adyacentes en el borde. */
+.tab-viewport{
+  overflow:hidden;
+  margin:0 -5px;
+  padding:4px 5px 20px
+}
+.tab-track{
+  display:flex;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;
+  gap:0;
+  cursor:grab;
+  scrollbar-width:none
+}
+.tab-track::-webkit-scrollbar{display:none}
+.tab-track.dragging{
+  cursor:grabbing;
+  scroll-snap-type:none;
+  scroll-behavior:auto
+}
+.tab-panel{
   display:grid;grid-template-columns:1fr 1fr;
-  gap:40px;align-items:start
+  gap:40px;align-items:start;
+  min-width:100%;flex:0 0 100%;
+  scroll-snap-align:start;
+  padding:0 5px;
+  user-select:none
+}
+.tab-track.dragging .tab-panel{pointer-events:none}
+.tab-track img{-webkit-user-drag:none;user-drag:none}
+.slider-hint{
+  display:flex;align-items:center;gap:8px;
+  margin-top:4px;
+  font-family:var(--font-body);
+  font-size:12px;font-weight:400;
+  color:var(--muted);letter-spacing:.03em
+}
+.slider-hint svg{width:15px;height:15px;stroke:var(--copper-warm);flex-shrink:0}
+@media(max-width:768px){
+  .tab-panel{grid-template-columns:1fr}
 }
 .tab-info h3{
   font-family:var(--font-h2);
@@ -1162,8 +1205,14 @@ strong.em,.em{
     <button class="tab-btn" data-tab="estetica">Estética / Spa</button>
     <button class="tab-btn" data-tab="barberia">Barbería / Peluquería</button>
   </div>
+  <div class="slider-hint">
+    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M13 5l7 7-7 7M4 12h15"/></svg>
+    Desliza para ver cada sector
+  </div>
 
-  <!-- HOTEL -->
+  <div class="tab-viewport">
+    <div class="tab-track" id="tab-track">
+    <!-- HOTEL -->
   <div class="tab-panel active" id="tab-hotel">
     <div class="tab-info">
       <h3>Hotel / Alojamiento Rural</h3>
@@ -1235,27 +1284,27 @@ strong.em,.em{
     </div>
   </div>
 
-  <!-- BARBERÍA -->
-  <div class="tab-panel" id="tab-barberia">
+  <!-- TATUAJES -->
+  <div class="tab-panel" id="tab-tatoo">
     <div class="tab-info">
-      <h3>Barbería / Peluquería</h3>
-      <p>El cliente sale con el corte hecho y está contento. <strong class="em">Ese es el momento</strong>. Un stand en el espejo o en el mostrador de pago convierte esa satisfacción en una reseña de Google antes de llegar a la puerta.</p>
+      <h3>Tatuajes / Estudio</h3>
+      <p>El cliente acaba de vivir una experiencia intensa y única. Ese es el momento de pedirle que te siga, que comparta y que vuelva. Un stand en la mesa de trabajo o en la salida lo convierte en seguidor activo.</p>
       <ul class="tab-uses">
-        <li>Reseña de Google al salir — momento de máxima satisfacción</li>
-        <li>Reserva de próxima cita sin llamar (Booksy, Calendly)</li>
-        <li>Seguir en Instagram para ver trabajos y novedades</li>
-        <li>Enlace a tu WhatsApp de negocio para consultas</li>
+        <li>Seguir en Instagram para ver el portfolio y nuevos trabajos</li>
+        <li>Reservar la próxima sesión directamente</li>
+        <li>Reseña de Google para atraer más clientes</li>
+        <li>WhatsApp para consultas de diseños y presupuestos</li>
       </ul>
-      <a href="#contactar" class="tab-cta">Lo quiero para mi barbería →</a>
+      <a href="#contactar" class="tab-cta">Lo quiero para mi estudio →</a>
       <div class="tab-logo"><img src="img/logos/onix negativo.png" alt="ONIX"></div>
     </div>
     <div class="tab-card">
-      <div class="diff-img" style="margin-bottom:18px"><img class="tab-img-v" src="img/BABERIRA.png" alt="Stand NFC en espejo de barbería" loading="lazy"></div>
-      <div class="badge">Más pedido en barberías</div>
+      <div class="diff-img" style="margin-bottom:18px"><img class="tab-img-v" src="img/redesTatoo.png" alt="Stand NFC Instagram en estudio de tatuajes" loading="lazy"></div>
+      <div class="badge">Vertical recomendado</div>
       <h4>Stand Personalizado</h4>
       <div class="price">35€ <span>/ unidad</span></div>
-      <p>Metacrilato vertical 10×15 cm. Tu logo y colores. Instalado en espejo o mostrador.</p>
-      <ul class="tab-incl"><li>Diseño personalizado incluido</li><li>Programado a tu ficha de Google</li><li>Instalación en tu local</li><li>Garantía 12 meses</li></ul>
+      <p>Formato vertical 10×15 cm, oscuro e impactante, que encaja con la estética de cualquier estudio de tatuaje.</p>
+      <ul class="tab-incl"><li>Diseño con tu imagen y estilo</li><li>Programado a Instagram o reservas</li><li>Instalación incluida</li><li>Garantía 12 meses</li></ul>
     </div>
   </div>
 
@@ -1307,27 +1356,29 @@ strong.em,.em{
     </div>
   </div>
 
-  <!-- TATUAJES -->
-  <div class="tab-panel" id="tab-tatoo">
+  <!-- BARBERÍA -->
+  <div class="tab-panel" id="tab-barberia">
     <div class="tab-info">
-      <h3>Tatuajes / Estudio</h3>
-      <p>El cliente acaba de vivir una experiencia intensa y única. Ese es el momento de pedirle que te siga, que comparta y que vuelva. Un stand en la mesa de trabajo o en la salida lo convierte en seguidor activo.</p>
+      <h3>Barbería / Peluquería</h3>
+      <p>El cliente sale con el corte hecho y está contento. <strong class="em">Ese es el momento</strong>. Un stand en el espejo o en el mostrador de pago convierte esa satisfacción en una reseña de Google antes de llegar a la puerta.</p>
       <ul class="tab-uses">
-        <li>Seguir en Instagram para ver el portfolio y nuevos trabajos</li>
-        <li>Reservar la próxima sesión directamente</li>
-        <li>Reseña de Google para atraer más clientes</li>
-        <li>WhatsApp para consultas de diseños y presupuestos</li>
+        <li>Reseña de Google al salir — momento de máxima satisfacción</li>
+        <li>Reserva de próxima cita sin llamar (Booksy, Calendly)</li>
+        <li>Seguir en Instagram para ver trabajos y novedades</li>
+        <li>Enlace a tu WhatsApp de negocio para consultas</li>
       </ul>
-      <a href="#contactar" class="tab-cta">Lo quiero para mi estudio →</a>
+      <a href="#contactar" class="tab-cta">Lo quiero para mi barbería →</a>
       <div class="tab-logo"><img src="img/logos/onix negativo.png" alt="ONIX"></div>
     </div>
     <div class="tab-card">
-      <div class="diff-img" style="margin-bottom:18px"><img class="tab-img-v" src="img/redesTatoo.png" alt="Stand NFC Instagram en estudio de tatuajes" loading="lazy"></div>
-      <div class="badge">Vertical recomendado</div>
+      <div class="diff-img" style="margin-bottom:18px"><img class="tab-img-v" src="img/BABERIRA.png" alt="Stand NFC en espejo de barbería" loading="lazy"></div>
+      <div class="badge">Más pedido en barberías</div>
       <h4>Stand Personalizado</h4>
       <div class="price">35€ <span>/ unidad</span></div>
-      <p>Formato vertical 10×15 cm, oscuro e impactante, que encaja con la estética de cualquier estudio de tatuaje.</p>
-      <ul class="tab-incl"><li>Diseño con tu imagen y estilo</li><li>Programado a Instagram o reservas</li><li>Instalación incluida</li><li>Garantía 12 meses</li></ul>
+      <p>Metacrilato vertical 10×15 cm. Tu logo y colores. Instalado en espejo o mostrador.</p>
+      <ul class="tab-incl"><li>Diseño personalizado incluido</li><li>Programado a tu ficha de Google</li><li>Instalación en tu local</li><li>Garantía 12 meses</li></ul>
+    </div>
+  </div>
     </div>
   </div>
 </section>
@@ -1560,9 +1611,6 @@ strong.em,.em{
 <div class="cta-section">
   <h2>¿Lo quieres ver funcionar en <span class="hl">tu negocio</span>?</h2>
   <p>Te lo muestro en 5 minutos. Sin compromiso. Sin coste.</p>
-  <div class="cta-group">
-    <a href="#catalogo" class="btn-ghost">Ver catálogo completo</a>
-  </div>
 </div>
 
 <footer>
@@ -1571,20 +1619,91 @@ strong.em,.em{
     <span style="display:none;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.08em;color:var(--copper-warm)">ONIX</span>
   </div>
   <span>© 2025 ONIX — Stands NFC para Negocios · Girona</span>
+  <span style="display:flex;gap:14px;flex-wrap:wrap">
+    <a href="legal.html">Aviso Legal</a>
+    <a href="legal.html">Privacidad</a>
+    <a href="legal.html">Cookies</a>
+  </span>
   <a href="https://wa.me/34630910142">+34 630 910 142</a>
 </footer>
 
 <script>
-// ── TABS ──────────────────────────────────────────────────────────────────────
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const tab = btn.dataset.tab;
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('tab-' + tab).classList.add('active');
+// ── SECTORES — SLIDER DESLIZABLE ────────────────────────────────────────────
+// El carrusel SOLO se mueve por acción del usuario: swipe táctil nativo,
+// drag con ratón/trackpad, o clic en una pestaña/punto para saltar. Nunca
+// se mueve solo (sin autoplay ni setInterval de desplazamiento).
+(function() {
+  const track = document.getElementById('tab-track');
+  if (!track) return;
+  const panels = Array.from(track.querySelectorAll('.tab-panel'));
+  const tabBtns = Array.from(document.querySelectorAll('.tab-btn'));
+
+  function setActive(tabName) {
+    tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === tabName));
+    panels.forEach(p => p.classList.toggle('active', p.id === 'tab-' + tabName));
+  }
+
+  function goTo(tabName) {
+    const panel = document.getElementById('tab-' + tabName);
+    if (panel) track.scrollTo({ left: panel.offsetLeft - panels[0].offsetLeft, behavior: 'smooth' });
+  }
+
+  tabBtns.forEach(btn => btn.addEventListener('click', () => goTo(btn.dataset.tab)));
+
+  // Sincroniza pestaña activa según lo que el usuario está viendo al deslizar
+  let scrollRAF = null;
+  track.addEventListener('scroll', () => {
+    if (scrollRAF) return;
+    scrollRAF = requestAnimationFrame(() => {
+      scrollRAF = null;
+      const trackRect = track.getBoundingClientRect();
+      const center = trackRect.left + trackRect.width / 2;
+      let closest = panels[0];
+      let closestDist = Infinity;
+      panels.forEach(p => {
+        const r = p.getBoundingClientRect();
+        const dist = Math.abs((r.left + r.width / 2) - center);
+        if (dist < closestDist) { closestDist = dist; closest = p; }
+      });
+      const tabName = closest.id.replace('tab-', '');
+      setActive(tabName);
+    });
+  }, { passive: true });
+
+  // Drag-to-scroll con ratón/trackpad (el móvil ya usa touch-scroll nativo)
+  let isDown = false, startX = 0, startScroll = 0, moved = false;
+  track.addEventListener('mousedown', e => {
+    isDown = true; moved = false;
+    startX = e.pageX;
+    startScroll = track.scrollLeft;
+    track.classList.add('dragging');
   });
-});
+  window.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    const dx = e.pageX - startX;
+    if (Math.abs(dx) > 4) moved = true;
+    track.scrollLeft = startScroll - dx;
+  });
+  function endDrag() {
+    if (!isDown) return;
+    isDown = false;
+    track.classList.remove('dragging');
+    // Snap al slide más cercano al soltar
+    const trackRect = track.getBoundingClientRect();
+    const center = trackRect.left + trackRect.width / 2;
+    let closest = panels[0], closestDist = Infinity;
+    panels.forEach(p => {
+      const r = p.getBoundingClientRect();
+      const dist = Math.abs((r.left + r.width / 2) - center);
+      if (dist < closestDist) { closestDist = dist; closest = p; }
+    });
+    goTo(closest.id.replace('tab-', ''));
+  }
+  window.addEventListener('mouseup', endDrag);
+  track.addEventListener('mouseleave', () => { if (isDown) endDrag(); });
+  // Evita que un drag se interprete como clic en los links/CTAs internos
+  track.addEventListener('click', e => { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
+})();
 
 // ── SCROLL ANIMATIONS ────────────────────────────────────────────────────────
 setTimeout(function() {
