@@ -48,6 +48,23 @@
 
 html{scroll-behavior:smooth;overflow-x:hidden}
 
+/* ─── SCROLLBAR PERSONALIZADA ────────────────────────────────── */
+:root{--thumb-bg:linear-gradient(180deg,rgba(140,58,15,.35),rgba(184,84,32,.35),rgba(140,58,15,.35))}
+html.scrolling{--thumb-bg:linear-gradient(180deg,var(--copper-deep),var(--copper),var(--copper-deep))}
+::-webkit-scrollbar{width:7px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{
+  background:var(--thumb-bg);
+  border-radius:100px;
+  border:1px solid rgba(245,201,106,.06);
+  transition:background .35s ease,border .35s ease
+}
+::-webkit-scrollbar-thumb:hover{
+  background:linear-gradient(180deg,var(--copper),var(--copper-warm),var(--copper));
+  border-color:rgba(245,201,106,.15)
+}
+html{scrollbar-width:thin;scrollbar-color:rgba(184,84,32,.35) transparent}
+
 body{
   background:var(--bg);
   background-image:
@@ -1841,7 +1858,11 @@ document.getElementById('contact-form').addEventListener('submit', function(e) {
   }, 100);
 })();
 </script>
+<script>let st;document.addEventListener('scroll',()=>{document.documentElement.classList.add('scrolling');clearTimeout(st);st=setTimeout(()=>document.documentElement.classList.remove('scrolling'),800)},{passive:!0})</script>
 </body>
 </html>
+
+
+ 
  
  

@@ -14,6 +14,23 @@
   --text:#F0EBE3; --text2:#C4B8A8; --muted:#9A8672; --border:#211A12; --border2:#2E2318;
   --font-h1:'Bebas Neue',sans-serif; --font-h2:'Rajdhani',sans-serif; --font-body:'Raleway',sans-serif;
 }
+/* ─── SCROLLBAR PERSONALIZADA ────────────────────────────────── */
+:root{--thumb-bg:linear-gradient(180deg,rgba(140,58,15,.35),rgba(184,84,32,.35),rgba(140,58,15,.35))}
+html.scrolling{--thumb-bg:linear-gradient(180deg,#8C3A0F,#B85420,#8C3A0F)}
+::-webkit-scrollbar{width:7px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{
+  background:var(--thumb-bg);
+  border-radius:100px;
+  border:1px solid rgba(245,201,106,.06);
+  transition:background .35s ease,border .35s ease
+}
+::-webkit-scrollbar-thumb:hover{
+  background:linear-gradient(180deg,#B85420,#E8A044,#B85420);
+  border-color:rgba(245,201,106,.15)
+}
+html{scrollbar-width:thin;scrollbar-color:rgba(184,84,32,.35) transparent}
+
 body{
   background:var(--bg); color:var(--text); font-family:var(--font-body),sans-serif;
   font-size:16px; font-weight:300; line-height:1.7; padding:120px 5% 80px; max-width:820px; margin:0 auto
@@ -75,5 +92,6 @@ footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--border2);font
   Última actualización de esta página: julio de 2026
 </footer>
 
+<script>let st;document.addEventListener('scroll',()=>{document.documentElement.classList.add('scrolling');clearTimeout(st);st=setTimeout(()=>document.documentElement.classList.remove('scrolling'),800)},{passive:!0})</script>
 </body>
 </html>
