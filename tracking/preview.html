@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ONIX - Preview</title>
+  <link rel="preload" as="image" href="assets/onix-logo.png" type="image/png" fetchpriority="high">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080705;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body, main {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      font-family: "Segoe UI", system-ui, sans-serif;
+    }
+
+    .splash {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .logo {
+      width: min(110vw, 450px);
+      height: auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="splash" aria-label="Logo ONIX">
+      <img class="logo" src="assets/onix-logo.png" alt="ONIX" loading="eager" decoding="sync" fetchpriority="high">
+    </section>
+  </main>
+</body>
+</html>

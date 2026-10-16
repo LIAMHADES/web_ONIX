@@ -3,12 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="view-transition" content="same-origin">
+<script>(function(){try{if(sessionStorage.getItem('onix-nav-transition')==='1'){document.documentElement.classList.add('onix-nav-transition');sessionStorage.removeItem('onix-nav-transition')}}catch(e){}})();</script>
 <title>Presupuesto Web ONIX — Calcula tu página a medida</title>
-<script src="site-fallback.js" defer></script>
 <meta name="description" content="Ejemplos de páginas web ONIX (menú digital, showcase de alojamiento, web de negocio) y calculadora de presupuesto según lo que necesites.">
+<link rel="canonical" href="https://liamhades.github.io/.DEV/projects/onix/presupuesto-web.html">
+<meta property="og:title" content="Presupuesto Web ONIX — Calcula tu página a medida">
+<meta property="og:description" content="Explora ejemplos de webs ONIX y calcula el presupuesto de tu página a medida.">
+<meta property="og:image" content="https://liamhades.github.io/.DEV/projects/onix/img/optimized/onix-negativo.webp">
+<meta property="og:url" content="https://liamhades.github.io/.DEV/projects/onix/presupuesto-web.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Presupuesto Web ONIX — Calcula tu página a medida">
+<meta name="twitter:description" content="Calcula una web ONIX según lo que necesite tu negocio.">
+<meta name="twitter:image" content="https://liamhades.github.io/.DEV/projects/onix/img/optimized/onix-negativo.webp">
+<meta name="theme-color" content="#080705">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@600;700&family=Raleway:wght@300;400;600&family=Cormorant:ital,wght@0,300;0,700;1,300;1,700&display=swap" rel="stylesheet">
+<link rel="preload" href="fonts/Bebas_Neue.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Rajdhani_Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+<link rel="manifest" href="manifest.json">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -31,7 +48,6 @@
   --font-h1:'Bebas Neue',sans-serif;
   --font-h2:'Rajdhani',sans-serif;
   --font-body:'Raleway',sans-serif;
-  --font-accent:'Cormorant',serif;
   --r:12px;
   --r-sm:8px;
   --ease-std:cubic-bezier(.16,1,.3,1);
@@ -96,7 +112,7 @@ body::after{
 @media(max-width:900px){body::after{background-size:cover;background-position:center;opacity:.15;filter:blur(6px)}}
 :focus-visible{outline:2px solid var(--copper-warm);outline-offset:3px}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
-strong.em,.em{font-family:var(--font-accent);font-style:italic;font-weight:700;color:var(--text);font-size:1.06em;letter-spacing:.01em;-webkit-text-fill-color:var(--text)}
+strong.em,.em{font-family:var(--font-body);font-style:normal;font-weight:600;color:var(--text);font-size:1em;letter-spacing:normal;-webkit-text-fill-color:var(--text)}
 
 .wrap{max-width:1100px;margin:0 auto;padding:0 5%;position:relative;z-index:2}
 
@@ -187,9 +203,9 @@ h1 .hl{background:var(--g-copper);-webkit-background-clip:text;-webkit-text-fill
 .ex-simple{background:linear-gradient(160deg,#1a1410,#0f0d0a 70%)}
 .example-preview::before{content:'';position:absolute;inset:0;opacity:.5;background-image:radial-gradient(circle at 30% 20%, rgba(232,160,68,.15), transparent 55%)}
 .ex-tag{position:relative;font-family:var(--font-h2);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--copper-light);margin-bottom:6px}
-.ex-headline{position:relative;font-family:var(--font-accent);font-style:italic;font-size:22px;color:var(--text);line-height:1.2}
+.ex-headline{position:relative;font-family:var(--font-body);font-style:normal;font-size:22px;font-weight:700;color:var(--text);line-height:1.2;margin:0}
 .example-body{padding:20px}
-.example-body h3{font-family:var(--font-h2);font-size:17px;font-weight:700;margin-bottom:6px}
+.example-body h4{font-family:var(--font-h2);font-size:17px;font-weight:700;margin:0 0 6px}
 .example-body p{font-size:13.5px;color:var(--text2);line-height:1.65;margin-bottom:14px}
 .example-pieces{list-style:none;margin-bottom:16px}
 .example-pieces li{font-size:12.5px;color:var(--muted);padding:5px 0;border-top:1px solid var(--border);display:flex;justify-content:space-between;gap:8px}
@@ -206,9 +222,10 @@ h1 .hl{background:var(--g-copper);-webkit-background-clip:text;-webkit-text-fill
 .calc-options{display:flex;flex-direction:column;gap:10px}
 .calc-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);cursor:pointer;transition:.15s ease}
 .calc-item:hover{border-color:rgba(232,160,68,.3)}
-.calc-item.base{cursor:default}
-.calc-item.base:hover{border-color:var(--border)}
+.calc-item.base{cursor:pointer}
+.calc-item.base:hover{border-color:rgba(232,160,68,.3)}
 .calc-item.active{border-color:var(--copper-warm);background:rgba(232,160,68,.06)}
+.calc-item.is-disabled{opacity:.42;cursor:not-allowed;pointer-events:none}
 .calc-item-label{display:flex;align-items:center;gap:12px;font-size:14px}
 .calc-check{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s ease}
 .calc-item.active .calc-check{background:var(--copper-warm);border-color:var(--copper-warm)}
@@ -241,8 +258,8 @@ h1 .hl{background:var(--g-copper);-webkit-background-clip:text;-webkit-text-fill
 
 /* ─── FOOTER ─────────────────────────────────────────────────── */
 footer{background:var(--surface);border-top:1px solid var(--border2);padding:28px 5%;display:flex;justify-content:space-between;align-items:center;font-family:var(--font-body);font-size:13px;font-weight:300;color:var(--muted);flex-wrap:wrap;gap:14px}
-.footer-logo{display:flex;align-items:center}
-.footer-logo img{height:50px;mix-blend-mode:screen}
+.footer-logo{display:flex;align-items:center;min-height:50px;height:clamp(50px,6vw,72px)}
+.footer-logo img{display:block;width:auto;height:100%;min-height:0;max-height:72px;max-width:100%;object-fit:contain;mix-blend-mode:screen}
 footer a{color:var(--copper-warm);text-decoration:none}
 footer a:hover{color:var(--copper-light)}
 
@@ -279,30 +296,41 @@ footer a:hover{color:var(--copper-light)}
   .example-pieces li{font-size:11px;flex-wrap:wrap}
   .calc-summary{padding:16px}
   .calc-total-row .price{font-size:30px}
-  .calc-cta{font-size:13px;padding:12px}
-}</style>
+   .calc-cta{font-size:13px;padding:12px}
+ }
+ /* ─── PAGE TRANSITIONS (View Transitions API) ────────────────── */
+ @view-transition{navigation:auto}
+ ::view-transition-old(root){animation:v-out .4s cubic-bezier(.16,1,.3,1) both}
+ ::view-transition-new(root){animation:v-in .4s cubic-bezier(.16,1,.3,1) both}
+ @keyframes v-out{from{opacity:1;transform:scale(1);filter:blur(0)}to{opacity:0;transform:scale(1.04);filter:blur(6px)}}
+ @keyframes v-in{from{opacity:0;transform:scale(.96);filter:blur(6px)}to{opacity:1;transform:scale(1);filter:blur(0)}}
+ </style>
+<link rel="stylesheet" href="onix-shared.css">
+<script src="onix-shared.js" defer></script>
+<script src="menu-lock.js?v=a12eaa0" defer></script>
 </head>
 <body>
 
 <div id="preloader">
-  <div class="pl-half top"><img src="img/logos/onix negativo.png" alt="ONIX"></div>
-  <div class="pl-half bot"><img src="img/logos/onix negativo.png" alt="ONIX"></div>
+  <div class="pl-half top"><img src="img/optimized/onix-negativo.webp" alt="ONIX" width="1200" height="388"></div>
+  <div class="pl-half bot"><img src="img/optimized/onix-negativo.webp" alt="ONIX" width="1200" height="388"></div>
 </div>
 
 <nav>
   <a class="nav-logo" href="index.html">
-    <img src="img/logos/logotodo.png" alt="ONIX" onerror="this.style.display='none';this.nextSibling.style.display='block'">
+    <img src="img/optimized/logotodo.webp" alt="ONIX" width="960" height="320" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
     <span style="display:none;font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.08em;color:var(--copper-warm)">ONIX</span>
   </a>
   <div class="nav-links">
     <a href="index.html">Inicio</a>
+    <a href="producto.html">Producto</a>
     <a href="suscripciones.html">Suscripciones</a>
     <a href="agentes.html">Agentes</a>
     <a href="campanas.html">Campañas</a>
     <a href="presupuesto-web.html" class="current">Web</a>
     <a href="index.html#contactar">Contacto</a>
   </div>
-  <a class="nav-cta" href="index.html#contactar">Pedir diseño gratis</a>
+  <a class="nav-cta" href="empezar.html?origen=web">Pedir diseño gratis</a>
   <button class="nav-hamburger" id="menu-toggle" aria-label="Menú" aria-expanded="false">
     <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="mh-line1" d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"/><path d="M7 16 27 16"/></svg>
   </button>
@@ -312,8 +340,8 @@ footer a:hover{color:var(--copper-light)}
 
   <section class="hero">
     <div class="eyebrow reveal-el">Presupuesto de página web</div>
-    <h1 class="reveal-title">Tu página, a <span class="hl">tu medida</span></h1>
-    <p class="hero-sub reveal-el"><strong class="em">Ninguna web ONIX es una plantilla.</strong> Se cotiza según lo que necesites: <strong>desde 450€</strong> la entrada, y cada pieza que añadas suma un precio fijo y transparente — sin sorpresas. Aquí tienes 3 ejemplos reales según el tipo de negocio, y una calculadora para que veas tu presupuesto exacto en el momento.</p>
+    <h1 class="reveal-title onix-typewriter-title"><span class="onix-tw-line">Tu página web</span><br><span class="onix-tw-line hl">a tu medida</span></h1>
+    <p class="hero-sub reveal-el"><strong class="em">Ninguna web ONIX es una plantilla.</strong> Se cotiza según lo que necesites: <strong>desde 350€</strong> la entrada, y cada pieza que añadas suma un precio fijo y transparente — sin sorpresas. Aquí tienes 3 ejemplos reales según el tipo de negocio, y una calculadora para que veas tu presupuesto exacto en el momento.</p>
   </section>
 
   <section class="section fi" id="ejemplos">
@@ -328,53 +356,53 @@ footer a:hover{color:var(--copper-light)}
       <div class="example-card reveal-card">
         <div class="example-preview ex-restaurante">
           <div class="ex-tag">Una página, un sector</div>
-          <div class="ex-headline">Siempre al día, sin imprimir nada</div>
+          <h3 class="ex-headline">Siempre al día, sin imprimir nada</h3>
         </div>
         <div class="example-body">
-          <h3>Página simple — 1 sola página</h3>
+          <h4>Página simple — 1 sola página</h4>
           <p>El cliente toca el stand y ve la información actualizada al momento, <strong class="em">sin reimprimir nada</strong> cada vez que algo cambia. La misma base sirve para casos muy distintos según tu sector: la carta de un restaurante, el listado de servicios y precios de una barbería/estética, las promociones activas de una tienda, o un enlace directo para reservar la siguiente cita.</p>
           <ul class="example-pieces">
-            <li><span>Página de entrada</span><span class="amt">450€</span></li>
+            <li><span>Página de entrada</span><span class="amt">650€</span></li>
           </ul>
-          <div class="example-total"><span class="label">Desde</span><span class="price">450€</span></div>
-          <a href="https://wa.me/34630910142?text=Hola%2C%20soy%20%5Bnombre%5D%20de%20%5Bnegocio%5D.%20Quiero%20la%20web%20tipo%20%22P%C3%A1gina%20simple%22%20(1%20p%C3%A1gina%2C%20450%E2%82%AC).%20%C2%BFCu%C3%A1ndo%20podemos%20empezar%3F" class="example-cta">Pedir esta web →</a>
+          <div class="example-total"><span class="label">Desde</span><span class="price">650€</span></div>
+          <a href="https://wa.me/34631879550?text=Hola%2C%20soy%20%5Bnombre%5D%20de%20%5Bnegocio%5D.%20Quiero%20la%20web%20tipo%20%22P%C3%A1gina%20simple%22%20(1%20p%C3%A1gina%2C%20650%E2%82%AC).%20%C2%BFCu%C3%A1ndo%20podemos%20empezar%3F" class="example-cta">Pedir esta web →</a>
         </div>
       </div>
 
       <div class="example-card reveal-card">
         <div class="example-preview ex-simple">
           <div class="ex-tag">Web simple de negocio</div>
-          <div class="ex-headline">Presentación, servicios, contacto</div>
+          <h3 class="ex-headline">Presentación, servicios, contacto</h3>
         </div>
         <div class="example-body">
-          <h3>2-3 páginas — el caso más habitual</h3>
+          <h4>2-3 páginas — el caso más habitual</h4>
           <p><strong class="em">El caso más habitual</strong>: logo, servicios y un enlace directo a WhatsApp o reservas, con alguna página extra según lo que necesites. Ejemplos: una clínica con "Servicios" + "Sobre nosotros"; un gimnasio con "Horarios" + "Tarifas"; una tienda con "Catálogo" + "Contacto".</p>
           <ul class="example-pieces">
-            <li><span>Página de entrada</span><span class="amt">450€</span></li>
-            <li><span>1 página adicional (ej. "Sobre nosotros")</span><span class="amt">+100€</span></li>
+            <li><span>Página de entrada</span><span class="amt">650€</span></li>
+            <li><span>1 página adicional (ej. "Sobre nosotros")</span><span class="amt">+150€</span></li>
           </ul>
-          <div class="example-total"><span class="label">Total</span><span class="price">550€</span></div>
-          <a href="https://wa.me/34630910142?text=Hola%2C%20soy%20%5Bnombre%5D%20de%20%5Bnegocio%5D.%20Quiero%20la%20web%20tipo%20%22Web%20simple%20de%20negocio%22%20(2-3%20p%C3%A1ginas%2C%20550%E2%82%AC).%20%C2%BFCu%C3%A1ndo%20podemos%20empezar%3F" class="example-cta">Pedir esta web →</a>
+          <div class="example-total"><span class="label">Total</span><span class="price">800€</span></div>
+          <a href="https://wa.me/34631879550?text=Hola%2C%20soy%20%5Bnombre%5D%20de%20%5Bnegocio%5D.%20Quiero%20la%20web%20tipo%20%22Web%20simple%20de%20negocio%22%20(2-3%20p%C3%A1ginas%2C%20800%E2%82%AC).%20%C2%BFCu%C3%A1ndo%20podemos%20empezar%3F" class="example-cta">Pedir esta web →</a>
         </div>
       </div>
 
       <div class="example-card reveal-card">
         <div class="example-preview ex-hotel">
           <div class="ex-tag">Web completa profesional</div>
-          <div class="ex-headline">Reserva directa, sin comisión</div>
+          <h3 class="ex-headline">Reserva directa, sin comisión</h3>
         </div>
         <div class="example-body">
-          <h3>Showcase del alojamiento — proyecto grande</h3>
+          <h4>Showcase del alojamiento — proyecto grande</h4>
           <p>Galería de habitaciones y espacios, formulario de reserva directa (<strong class="em">te ahorra la comisión de Booking</strong> en cada reserva) y SEO para aparecer en búsquedas locales. Ejemplo: un hotel rural o casa rural que quiere mostrar el alojamiento entero y captar reservas propias.</p>
           <ul class="example-pieces">
-            <li><span>Página de entrada</span><span class="amt">450€</span></li>
-            <li><span>Galería de habitaciones/espacios</span><span class="amt">+100€</span></li>
-            <li><span>Formulario de reserva directa</span><span class="amt">+80€</span></li>
+            <li><span>Página de entrada</span><span class="amt">650€</span></li>
+            <li><span>Galería de habitaciones/espacios</span><span class="amt">+150€</span></li>
+            <li><span>Formulario de reserva directa</span><span class="amt">+100€</span></li>
             <li><span>SEO local básico</span><span class="amt">+100€</span></li>
             <li><span>Mantenimiento + hosting (mensual, aparte)</span><span class="amt">27€/mes</span></li>
           </ul>
-          <div class="example-total"><span class="label">Total entrada</span><span class="price">730€</span></div>
-          <a href="https://wa.me/34630910142?text=Hola%2C%20soy%20%5Bnombre%5D%20de%20%5Bnegocio%5D.%20Quiero%20la%20web%20tipo%20%22Web%20completa%20profesional%22%20(showcase%20alojamiento%2C%20730%E2%82%AC%20entrada%20%2B%2027%E2%82%AC%2Fmes%20mantenimiento).%20%C2%BFCu%C3%A1ndo%20podemos%20empezar%3F" class="example-cta">Pedir esta web →</a>
+          <div class="example-total"><span class="label">Total entrada</span><span class="price">1000€</span></div>
+          <a href="https://wa.me/34631879550?text=Hola%2C%20soy%20%5Bnombre%5D%20de%20%5Bnegocio%5D.%20Quiero%20la%20web%20tipo%20%22Web%20completa%20profesional%22%20(showcase%20alojamiento%2C%201000%E2%82%AC%20entrada%20%2B%2027%E2%82%AC%2Fmes%20mantenimiento).%20%C2%BFCu%C3%A1ndo%20podemos%20empezar%3F" class="example-cta">Pedir esta web →</a>
         </div>
       </div>
 
@@ -391,18 +419,29 @@ footer a:hover{color:var(--copper-light)}
     <div class="calc-box">
       <div class="calc-options">
 
-        <div class="calc-item base active">
+        <div class="calc-item base active" data-base="pagina" data-price="650" data-label="Página web a medida">
           <div class="calc-item-label">
             <div class="calc-check"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <div>
-              <span class="calc-item-name">Página de entrada</span>
+               <span class="calc-item-name">Página web a medida</span>
               <span class="calc-item-desc">Copy y diseño a medida — logo, servicios, enlace a WhatsApp. Siempre incluida.</span>
             </div>
           </div>
-          <div class="calc-item-price">450€</div>
+           <div class="calc-item-price">650€</div>
         </div>
 
-        <div class="calc-item" data-key="secciones" data-price="100" data-qty="true">
+        <div class="calc-item base" data-base="landing" data-price="350" data-label="Landing page">
+          <div class="calc-item-label">
+            <div class="calc-check"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div>
+              <span class="calc-item-name">Landing page</span>
+              <span class="calc-item-desc">Una página enfocada a presentar tu negocio y conseguir contactos.</span>
+            </div>
+          </div>
+          <div class="calc-item-price">350€</div>
+        </div>
+
+        <div class="calc-item" data-key="secciones" data-price="150" data-qty="true">
           <div class="calc-item-label">
             <div class="calc-check"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <div>
@@ -415,17 +454,6 @@ footer a:hover{color:var(--copper-light)}
             <span data-qty-display>0</span>
             <button type="button" data-step="1">+</button>
           </div>
-        </div>
-
-        <div class="calc-item" data-key="blog" data-price="150">
-          <div class="calc-item-label">
-            <div class="calc-check"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-            <div>
-              <span class="calc-item-name">Blog</span>
-              <span class="calc-item-desc">Estructura + primeros 3 posts</span>
-            </div>
-          </div>
-          <div class="calc-item-price">+150€</div>
         </div>
 
         <div class="calc-item" data-key="seo" data-price="100">
@@ -454,7 +482,7 @@ footer a:hover{color:var(--copper-light)}
           </div>
         </div>
 
-        <div class="calc-item" data-key="formulario" data-price="80">
+        <div class="calc-item" data-key="formulario" data-price="100">
           <div class="calc-item-label">
             <div class="calc-check"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <div>
@@ -462,7 +490,7 @@ footer a:hover{color:var(--copper-light)}
               <span class="calc-item-desc">Reserva directa, ideal para hoteles y clínicas</span>
             </div>
           </div>
-          <div class="calc-item-price">+80€</div>
+          <div class="calc-item-price">+100€</div>
         </div>
 
         <div class="calc-item" data-key="ecommerce" data-price="400">
@@ -495,7 +523,7 @@ footer a:hover{color:var(--copper-light)}
               <span class="calc-item-desc">ONIX lo compra y gestiona a tu nombre. Sin esto, tu web vive en un subdominio ONIX gratuito — <strong style="color:var(--text)">te beneficias del tráfico y posicionamiento</strong> que ONIX ya genera con el resto de negocios de la red, sin partir de cero en SEO.</span>
             </div>
           </div>
-          <div class="calc-item-price">15€/año</div>
+          <div class="calc-item-price">Desde 15€/año</div>
         </div>
 
       </div>
@@ -503,12 +531,12 @@ footer a:hover{color:var(--copper-light)}
       <div class="calc-summary">
         <h4>Tu presupuesto</h4>
         <div id="calc-lines">
-          <div class="calc-line"><span>Página de entrada</span><span class="n">450€</span></div>
+          <div class="calc-line"><span>Página web a medida</span><span class="n">650€</span></div>
           <div class="calc-line empty" id="calc-empty">Marca lo que necesites →</div>
         </div>
         <div class="calc-total-row">
           <span class="label">Pago único</span>
-          <span class="price" id="calc-total">450€</span>
+          <span class="price" id="calc-total">650€</span>
         </div>
         <div class="calc-recurring-row" id="calc-recurring-row" style="display:none">
           <span class="label">+ cuotas recurrentes</span>
@@ -524,7 +552,7 @@ footer a:hover{color:var(--copper-light)}
 
 <footer>
   <div class="footer-logo">
-    <img src="img/logos/logotodo.png" alt="ONIX" onerror="this.style.display='none';this.nextSibling.style.display='inline'">
+    <img src="img/optimized/logotodo.webp" alt="ONIX" width="960" height="320" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
     <span style="display:none;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.08em;color:var(--copper-warm)">ONIX</span>
   </div>
   <span>© 2025 ONIX — Stands NFC para Negocios · Girona</span>
@@ -533,26 +561,11 @@ footer a:hover{color:var(--copper-light)}
     <a href="legal.html">Privacidad</a>
     <a href="legal.html">Cookies</a>
   </span>
-  <a href="https://wa.me/34630910142">+34 630 910 142</a>
+  <a class="footer-contact" href="https://wa.me/34631879550" aria-label="Contactar con ONIX por WhatsApp">Contáctanos</a>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="vendor/gsap.min.js"></script>
 <script>
-(function() {
-  var preloaderTop = document.querySelector('#preloader .pl-half.top');
-  var preloaderBot = document.querySelector('#preloader .pl-half.bot');
-  if (!preloaderTop || !preloaderBot) return;
-
-  var tl = gsap.timeline();
-  tl.fromTo(preloaderTop, {x: -560}, {x: 0, duration: 1.6, ease: 'power4.out'}, 0);
-  tl.fromTo(preloaderBot, {x: 560}, {x: 0, duration: 1.6, ease: 'power4.out'}, 0);
-  tl.to('#preloader', {opacity: 0, duration: 0.4, ease: 'power2.in'}, '-=0.2');
-  tl.set('#preloader', {display: 'none'});
-  tl.to('.reveal-title', {opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', stagger: 0.08}, '-=0.05');
-  tl.to('.reveal-el', {opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.06}, 0.15);
-  tl.to('.reveal-card', {opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.05}, 0.35);
-})();
-
 (function(){
   var lastScroll = 0;
   window.addEventListener('scroll', function(){
@@ -563,8 +576,17 @@ footer a:hover{color:var(--copper-light)}
 
 <script>
 (function(){
-  var BASE = 450;
+  var base = { key: 'pagina', label: 'Página web a medida', price: 650 };
   var items = {};
+
+  document.querySelectorAll('.calc-item[data-base]').forEach(function(el){
+    el.addEventListener('click', function(){
+      base = { key: el.dataset.base, label: el.dataset.label, price: parseInt(el.dataset.price, 10) };
+      document.querySelectorAll('.calc-item[data-base]').forEach(function(option){ option.classList.toggle('active', option === el); });
+      setExtrasEnabled(base.key !== 'landing');
+      render();
+    });
+  });
 
   document.querySelectorAll('.calc-item[data-key]').forEach(function(el){
     var key = el.dataset.key;
@@ -596,14 +618,32 @@ footer a:hover{color:var(--copper-light)}
     }
   });
 
+  function setExtrasEnabled(enabled){
+    document.querySelectorAll('.calc-item[data-key]').forEach(function(el){
+      el.classList.toggle('is-disabled', !enabled);
+      el.setAttribute('aria-disabled', String(!enabled));
+      el.querySelectorAll('button').forEach(function(btn){ btn.disabled = !enabled; });
+
+      if (!enabled) {
+        var item = items[el.dataset.key];
+        if (!item) return;
+        item.active = false;
+        item.qty = item.hasQty ? 0 : 1;
+        el.classList.remove('active');
+        var qtyDisplay = el.querySelector('[data-qty-display]');
+        if (qtyDisplay) qtyDisplay.textContent = '0';
+      }
+    });
+  }
+
   function euro(n){ return n.toLocaleString('es-ES') + '€'; }
 
   function render(){
     var linesEl = document.getElementById('calc-lines');
-    var total = BASE;
+    var total = base.price;
     var monthlyTotal = 0;
     var yearlyTotal = 0;
-    var lines = ['<div class="calc-line"><span>Página de entrada</span><span class="n">' + euro(BASE) + '</span></div>'];
+    var lines = ['<div class="calc-line"><span>' + base.label + '</span><span class="n">' + euro(base.price) + '</span></div>'];
 
     Object.keys(items).forEach(function(key){
       var item = items[key];
@@ -644,7 +684,7 @@ footer a:hover{color:var(--copper-light)}
       recurringRow.style.display = 'none';
     }
 
-    var resumen = 'Página de entrada (' + euro(BASE) + ')';
+    var resumen = base.label + ' (' + euro(base.price) + ')';
     Object.keys(items).forEach(function(key){
       var item = items[key];
       if (!item.active) return;
@@ -652,7 +692,7 @@ footer a:hover{color:var(--copper-light)}
       resumen += ', ' + item.label + qtyLabel;
     });
     var msg = 'Hola, soy [nombre] de [negocio]. Quiero este presupuesto de web: ' + resumen + '. Total: ' + euro(total) + (recurringParts.length ? ' + ' + recurringParts.join(' + ') : '') + '. ¿Cuándo podemos empezar?';
-    document.getElementById('calc-cta').href = 'https://wa.me/34630910142?text=' + encodeURIComponent(msg);
+    document.getElementById('calc-cta').href = 'https://wa.me/34631879550?text=' + encodeURIComponent(msg);
   }
 
   render();
@@ -669,4 +709,4 @@ setTimeout(function() {
 }, 200);
 </script>
 
-<script>document.getElementById('menu-toggle').addEventListener('click',function(){var n=document.querySelector('.nav-links');n.classList.toggle('open');var o=n.classList.contains('open');this.classList.toggle('is-open',o);this.setAttribute('aria-expanded',o);var c=document.querySelector('.nav-cta');if(c)c.classList.toggle('menu-visible',o);});</script></body>
+<script>(function(){var b=document.getElementById('menu-toggle'),n=document.querySelector('.nav-links'),c=document.querySelector('.nav-cta');if(!b||!n)return;function close(){n.classList.remove('open');b.classList.remove('is-open');b.setAttribute('aria-expanded','false');if(c)c.classList.remove('menu-visible')}b.addEventListener('click',function(){var o=n.classList.toggle('open');b.classList.toggle('is-open',o);b.setAttribute('aria-expanded',String(o));if(c)c.classList.toggle('menu-visible',o)});n.querySelectorAll('a').forEach(function(a){a.addEventListener('click',close)});document.addEventListener('keydown',function(e){if(e.key==='Escape')close()})})();</script></body>
