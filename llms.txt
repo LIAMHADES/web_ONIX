@@ -4,12 +4,12 @@ ONIX crea expositores NFC y servicios digitales para negocios locales.
 
 ## Páginas principales
 
-- [Inicio](https://liamhades.github.io/.DEV/projects/onix/): propuesta general de ONIX.
-- [Expositor](https://liamhades.github.io/.DEV/projects/onix/producto.html): cómo funciona el stand NFC y sus formatos.
-- [Fideliza](https://liamhades.github.io/.DEV/projects/onix/suscripciones.html): planes mensuales, montaje inicial y ampliaciones.
-- [Campañas](https://liamhades.github.io/.DEV/projects/onix/campanas.html): ejemplos de campañas dentro de Fideliza.
-- [Web](https://liamhades.github.io/.DEV/projects/onix/presupuesto-web.html): páginas web y extras digitales.
-- [Referidos](https://liamhades.github.io/.DEV/projects/onix/referidos.html): programa de recomendación.
+- [Inicio](https://liamhades.github.io/web_ONIX/): propuesta general de ONIX.
+- [Expositor](https://liamhades.github.io/web_ONIX/producto.html): cómo funciona el stand NFC y sus formatos.
+- [Fideliza](https://liamhades.github.io/web_ONIX/suscripciones.html): planes mensuales, montaje inicial y ampliaciones.
+- [Campañas](https://liamhades.github.io/web_ONIX/campanas.html): ejemplos de campañas dentro de Fideliza.
+- [Web](https://liamhades.github.io/web_ONIX/presupuesto-web.html): páginas web y extras digitales.
+- [Referidos](https://liamhades.github.io/web_ONIX/referidos.html): programa de recomendación.
 
 ## Información comercial
 

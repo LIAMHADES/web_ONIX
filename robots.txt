@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://liamhades.github.io/.DEV/projects/onix/sitemap.xml
+Sitemap: https://liamhades.github.io/web_ONIX/sitemap.xml
