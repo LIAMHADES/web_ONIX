@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ONIX · Tarjeta fiel v5</title>
+<style>
+  @font-face{font-family:BebasONIX;src:url('fonts/Bebas_Neue.woff2') format('woff2');font-display:swap}
+  @font-face{font-family:RajdhaniONIX;src:url('fonts/Rajdhani_Bold.woff2') format('woff2');font-display:swap}
+  :root{--bone:#fdf4ec;--display:BebasONIX,Impact,sans-serif;--ui:RajdhaniONIX,'Arial Narrow',Arial,sans-serif}
+
+  *{box-sizing:border-box}
+  body{margin:0;background:#e9e5df;color:#1a1511;font-family:Arial,sans-serif}
+  .studio{width:min(1180px,calc(100% - 28px));margin:auto;padding:26px 0 52px}
+  .head{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:20px}
+  .head h1{margin:0;font:400 46px/.9 var(--display);letter-spacing:.05em}
+  .head p{max-width:560px;margin:0;color:#6f655d;font-size:13px;line-height:1.45}
+  .layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:22px}
+  .preview{padding:22px;border:1px solid #d0c8bf;border-radius:18px;background:#f8f5ef;box-shadow:0 18px 42px #34291f18}
+
+  /* ---------- TARJETA ---------- */
+  .card{
+    position:relative;overflow:hidden;width:100%;
+    aspect-ratio:1304/816;
+    container-type:size;container-name:card;
+    border-radius:clamp(14px,2vw,29px);
+    box-shadow:0 28px 50px #2b211a38,inset 0 1px #fff4;
+    isolation:isolate;
+  }
+  .card-art{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;z-index:0}
+
+  /* Las capas se miden contra la tarjeta: 1cqw = 1% del ancho de la tarjeta.
+     Posiciones tomadas de la referencia (TbronceONIX.png, 1304x816). */
+  .layer{position:absolute;z-index:2;margin:0;padding:0;white-space:nowrap}
+
+  /* Nombre: tinta x 11.58% -> 48.16%, y 44.36% -> 54.66% (alto 10.30% del alto) */
+  .l-name{
+    left:var(--name-x);top:var(--name-y);
+    color:var(--ink-name,var(--bone));
+    font:700 var(--name-size)/.74 var(--ui);
+    letter-spacing:.151em;
+    text-shadow:0 .16cqw 0 #1a0d05cc,0 -.06cqw 0 var(--ink-rim,#ffdcb8e0);
+    max-width:none;
+  }
+
+  /* Puntos: tinta x 13.27% -> 41.95%, y 62.99% -> 72.30% (alto 9.31% del alto) */
+  .l-points{
+    left:var(--points-x);top:var(--points-y);
+    color:var(--ink-points,#b08a69);
+    font:700 var(--points-size)/.68 var(--ui);
+    letter-spacing:.123em;
+    text-shadow:0 .12cqw 0 #1a0d05b3,0 -.07cqw 0 var(--ink-rim,#ffe2c4b3);
+  }
+
+  /* PUNTOS: tinta x 44.38% -> 57.49%, y 66.67% -> 69.73% */
+  .l-label{
+    left:var(--label-x);top:var(--label-y);
+    color:var(--ink-label,#ac8970);
+    font:700 var(--label-size)/1 var(--ui);
+    letter-spacing:.25em;
+    text-shadow:0 .08cqw 0 #1a0d05b3,0 -.06cqw 0 var(--ink-rim,#ffe2c4b3);
+  }
+
+  /* ABRIR WEB: tinta x 41.56% -> 58.59%, y 85.17% -> 87.99% */
+  .l-web{
+    left:var(--web-x);top:var(--web-y);z-index:4;
+    display:block;text-decoration:none;
+    color:var(--ink-web,var(--bone));
+    font:700 var(--web-size)/1 var(--ui);
+    letter-spacing:.33em;
+    text-shadow:0 .12cqw 0 #1a0d05cc,0 0 .5cqw #000000cc;
+    pointer-events:auto;
+  }
+  .l-web:focus-visible{outline:.24cqw solid #f4be5e;outline-offset:.24cqw;border-radius:.2cqw}
+  .l-web__hit{position:absolute;left:36%;top:80%;width:28%;height:14%;z-index:3;border-radius:.6cqw}
+
+  /* El numero y la etiqueta van grabados en la referencia: filo claro arriba,
+     cuerpo oscuro y un rebote de luz abajo. Se reproduce con relleno degradado
+     sobre el texto (el color plano queda como respaldo si el motor no lo admite). */
+  @supports ((background-clip:text) or (-webkit-background-clip:text)){
+    .l-points,.l-label{
+      background-image:var(--ink-points-g);
+      -webkit-background-clip:text;background-clip:text;
+      -webkit-text-fill-color:transparent;color:transparent;
+      text-shadow:none;
+      filter:drop-shadow(0 .12cqw 0 #1a0d0599) drop-shadow(0 -.05cqw 0 var(--ink-rim));
+    }
+    .l-label{background-image:var(--ink-label-g);
+      filter:drop-shadow(0 .08cqw 0 #1a0d0599) drop-shadow(0 -.04cqw 0 var(--ink-rim));}
+  }
+
+  /* Valores de calibración (se sobrescriben por nivel si hace falta) */
+  .card{
+    --name-x:11.04%;--name-y:44.23%;--name-size:9.66cqw;
+    --points-x:13.09%;--points-y:63.30%;--points-size:8.87cqw;
+    --label-x:44.23%;--label-y:66.06%;--label-size:3.00cqw;
+    --web-x:41.56%;--web-y:84.68%;--web-size:2.39cqw;
+  }
+
+  /* Tinta por nivel: medida sobre cada referencia aprobada (scripts/measure_tone.py).
+     Normal, plata y oro llevan el numero grabado (cuerpo oscuro + filo claro); el
+     bronce es el que manda porque es la unica referencia sin compresion. */
+  .card{
+    --ink-name:#f5eae1;--ink-points:#845b35;--ink-label:#8c6953;--ink-web:#fcebe0;
+    --ink-rim:rgba(255,232,204,.62);
+    --ink-points-g:linear-gradient(180deg,#e2c5a2 0%,#b0855c 5%,#885d36 16%,#6f4a2b 55%,#6c4729 86%,#bd9470 100%);
+    --ink-label-g:linear-gradient(180deg,#fff8ee 0%,#f2c9a2 8%,#b0866a 20%,#7f5e49 55%,#7d5c47 86%,#cfad8f 100%);
+  }
+  .card[data-tier="basic"]{
+    --ink-name:#dddddb;--ink-points:#dadad9;--ink-label:#dededd;--ink-web:#dddddb;
+    --ink-rim:rgba(255,255,255,0);
+    --ink-points-g:linear-gradient(180deg,#e8e8e7 0%,#d9d9d8 6%,#d3d3d2 20%,#d2d2d1 80%,#e6e6e5 100%);
+    --ink-label-g:linear-gradient(180deg,#f0f0ef 0%,#e4e4e3 6%,#dcdcdb 24%,#d8d8d7 80%,#e9e9e8 100%);
+  }
+  .card[data-tier="plata"]{
+    --ink-name:#e8e6e2;--ink-points:#9a9898;--ink-label:#aaa8a8;--ink-web:#dbdbdb;
+    --ink-rim:rgba(255,255,255,.55);
+    --ink-points-g:linear-gradient(180deg,#e6e4e4 0%,#b9b7b6 5%,#979594 16%,#8a8888 55%,#888686 86%,#cbc9c8 100%);
+    --ink-label-g:linear-gradient(180deg,#f4f3f2 0%,#d2d0cf 6%,#adabaa 18%,#9f9d9d 55%,#9d9b9b 86%,#d7d5d4 100%);
+  }
+  .card[data-tier="oro"]{
+    --ink-name:#e2ce8b;--ink-points:#866a40;--ink-label:#937645;--ink-web:#e6d2a1;
+    --ink-rim:rgba(255,240,205,.55);
+    --ink-points-g:linear-gradient(180deg,#e3c898 0%,#b28c5c 5%,#886a41 16%,#705733 55%,#6d5431 86%,#c49c72 100%);
+    --ink-label-g:linear-gradient(180deg,#f0d8ad 0%,#c9a271 6%,#9a7c4c 18%,#886c40 55%,#85693d 86%,#d2b389 100%);
+  }
+
+  /* ---------- Controles ---------- */
+  .controls{padding:18px;border:1px solid #d0c8bf;border-radius:16px;background:#f8f5ef;box-shadow:0 18px 42px #34291f18}
+  .controls h2{margin:0 0 14px;font:700 20px var(--ui);letter-spacing:.08em}
+  .field{display:grid;gap:6px;margin-top:13px}
+  .field label{font:700 11px var(--ui);letter-spacing:.1em;text-transform:uppercase}
+  .field input,.field select{width:100%;padding:10px 11px;border:1px solid #c7bdb2;border-radius:7px;background:#fff;font:14px Arial,sans-serif}
+  .field input:focus-visible,.field select:focus-visible{outline:3px solid #f4be5e;outline-offset:2px}
+  .note{margin-top:16px;color:#746960;font-size:12px;line-height:1.45}
+  .asset{margin-top:16px;color:#746960;font-size:11px}
+  .asset strong{display:block;color:#3b2b21;margin-bottom:4px}
+  .asset code{word-break:break-all}
+  .metrics{margin-top:14px;display:grid;gap:4px;font-size:11px;color:#6f655d}
+  .metrics b{color:#3b2b21}
+  .cases{margin:18px 0 0;padding:12px 14px;border:1px solid #d0c8bf;border-radius:12px;background:#fffaf5;font-size:12px;color:#6f655d}
+  .cases strong{display:block;margin-bottom:7px;color:#3b2b21;font:700 13px var(--ui);letter-spacing:.08em;text-transform:uppercase}
+  .cases-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:5px 18px}
+  .cases-grid button{padding:0;border:0;background:none;color:#6f655d;text-align:left;cursor:pointer;font:inherit}
+  .cases-grid button:hover,.cases-grid button:focus-visible{color:#3b2b21;text-decoration:underline}
+
+  @media(max-width:850px){.layout{grid-template-columns:1fr}.controls{order:-1;max-width:520px}.head{display:block}.head p{margin-top:10px}.preview{padding:12px}}
+  @media(max-width:520px){.studio{width:min(100% - 16px,500px);padding-top:16px}.head h1{font-size:38px}.card{border-radius:15px}}
+</style>
+</head>
+<body>
+<main class="studio">
+  <header class="head">
+    <h1>ONIX / TARJETA FIEL</h1>
+    <p>Versión híbrida: la imagen aprobada conserva material y relieve; nombre, puntos, PUNTOS y ABRIR WEB son capas dinámicas colocadas sobre la geometría real de la referencia.</p>
+  </header>
+  <section class="layout">
+    <div class="preview">
+      <article id="card" class="card" aria-label="Tarjeta web ONIX">
+          <img id="cardArt" class="card-art" src="assets/fideliza/web-cards/clean-bases/basic.png" alt="Tarjeta ONIX Básico">
+        <span id="name" class="layer l-name">LIAM G.</span>
+        <span id="points" class="layer l-points">10.000</span>
+        <span id="label" class="layer l-label">PUNTOS</span>
+        <a id="web" class="layer l-web" href="#web">ABRIR WEB</a>
+        <a id="webHit" class="l-web__hit" href="#web" aria-hidden="true" tabindex="-1"></a>
+      </article>
+       <p class="note">Solo cambian las capas de texto. La base es la referencia limpia del nivel, así que el relieve y la textura se mantienen intactos.</p>
+       <div class="cases"><strong>Casos reales de nombre</strong><div id="casesGrid" class="cases-grid"></div></div>
+    </div>
+    <aside class="controls" aria-label="Datos dinámicos">
+      <h2>PROBAR TARJETA</h2>
+      <div class="field"><label for="tier">Nivel</label>
+        <select id="tier"><option value="basic" selected>Normal</option><option value="bronce">Bronce</option><option value="plata">Plata</option><option value="oro">Oro</option></select>
+      </div>
+       <div class="field"><label for="clientName">Nombre completo</label><input id="clientName" value="LIAM G." maxlength="80" autocomplete="off"></div>
+       <div class="field"><label for="clientPoints">Puntos · máximo 9.999.999</label><input id="clientPoints" type="number" min="0" max="9999999" value="10000"></div>
+       <div class="field"><label for="targetUrl">URL real</label><input id="targetUrl" type="url" value="https://liamhades.github.io/web_ONIX/"></div>
+      <p class="asset"><strong>Base usada</strong><code id="assetName">TbronceONIX-clean.png</code></p>
+      <div class="metrics">
+         <span>nombre mostrado <b id="mName">24 px</b></span>
+         <span>modo <b id="mNameMode">completo</b></span>
+         <span>puntos <b id="mPoints">33 px</b></span>
+      </div>
+    </aside>
+  </section>
+</main>
+<script src="onix-card-name.js"></script>
+<script>
+  const states = {
+     basic:{asset:'basic.png'},
+     bronce:{asset:'bronze.png'},
+     plata:{asset:'silver.png'},
+     oro:{asset:'gold.png'}
+  };
+  const $ = id => document.getElementById(id);
+  const card = $('card');
+
+  /* Hueco de tinta disponible, en % del ancho de la tarjeta, medido sobre la
+     referencia: el nombre muere antes del borde del panel y los puntos antes
+     de que empiece el rotulo PUNTOS. */
+  const BOX = {
+    name:{left:11.58, maxRight:49.2},
+    points:{left:13.27, maxRight:42.9}
+  };
+
+  function cqwToPx(cqw){ return card.clientWidth * cqw / 100; }
+
+  /* Los tamaños base viven en las variables CSS de la tarjeta: una sola fuente
+     de verdad para calibrar y para producción. */
+  function baseSize(prop, fallback){
+    const v = parseFloat(getComputedStyle(card).getPropertyValue(prop));
+    return Number.isFinite(v) ? v : fallback;
+  }
+
+  /* Anchura de avance con tracking. El rectangulo incluye el tracking final,
+     que no pinta, y va un poco por encima de la tinta real: sirve como cota
+     segura para que el texto nunca invada el simbolo. */
+  function inkWidth(el){
+    const r = el.getBoundingClientRect().width;
+    const ls = parseFloat(getComputedStyle(el).letterSpacing);
+    return r - (Number.isFinite(ls) ? ls : 0);
+  }
+
+  /* Escala proporcional (vale para cualquier longitud), con una segunda pasada
+     para clavar el ancho aunque cambie el tracking al reducir el cuerpo. */
+  function fit(el, box, baseCqw, minCqw){
+    const avail = card.clientWidth * (box.maxRight - box.left) / 100;
+    el.style.fontSize = baseCqw.toFixed(2) + 'cqw';
+    let wide = inkWidth(el);
+    if (wide <= avail) return baseCqw;
+
+    let size = Math.max(minCqw, baseCqw * avail / wide * 0.995);
+    el.style.fontSize = size.toFixed(2) + 'cqw';
+    wide = inkWidth(el);
+    if (wide > avail) {
+      size = Math.max(minCqw, size * avail / wide * 0.995);
+      el.style.fontSize = size.toFixed(2) + 'cqw';
+    }
+    return parseFloat(el.style.fontSize);
+  }
+
+  function render(){
+    const tier = $('tier').value;
+    const state = states[tier];
+    card.dataset.tier = tier;
+     $('cardArt').src = 'assets/fideliza/web-cards/clean-bases/' + state.asset;
+    $('cardArt').alt = 'Tarjeta ONIX ' + tier;
+    $('assetName').textContent = state.asset;
+    const nameResult = ONIXCard.shortenName($('clientName').value || 'CLIENTE');
+    $('name').textContent = nameResult.display;
+    $('mNameMode').textContent = nameResult.mode;
+    const points = ONIXCard.clampPoints($('clientPoints').value);
+    $('clientPoints').value = points;
+    $('points').textContent = ONIXCard.formatPoints(points);
+
+    const nameSize = fit($('name'), BOX.name, baseSize('--name-size', 9.66), 6.0);
+    const pointText = $('points').textContent;
+    const pointsBase = ONIXCard.pointsBaseCqw(pointText.length, baseSize('--points-size', 8.87));
+    const pointsSize = fit($('points'), BOX.points, pointsBase, 5.8);
+    $('mName').textContent = cqwToPx(nameSize).toFixed(1) + ' px';
+    $('mPoints').textContent = cqwToPx(pointsSize).toFixed(1) + ' px';
+
+    const href = $('targetUrl').value.trim();
+    const target = href || '';
+    $('web').href = target || '#web';
+    $('webHit').href = target || '#web';
+    if (!target) { $('web').removeAttribute('target'); $('web').removeAttribute('rel'); }
+    else { $('web').target = '_blank'; $('web').rel = 'noopener'; }
+  }
+
+  const cases = ['LIAM G.','BARBERÍA ANTONIO','BARBERÍA ANTONIO RUIZ','CLÍNICA DENTAL SONRISA','PELUQUERÍA MARÍA JOSÉ','RESTAURANTE EL MIRADOR DEL PUERTO','PANADERÍA LA ESPIGA DE ORO','ESTÉTICA CANINA WAU'];
+  $('casesGrid').innerHTML = cases.map(name => '<button type="button" data-name="' + name.replace(/"/g, '&quot;') + '">' + name + '</button>').join('');
+  $('casesGrid').addEventListener('click', event => {
+    const button = event.target.closest('button[data-name]');
+    if (!button) return;
+    $('clientName').value = button.dataset.name;
+    render();
+  });
+
+  ['tier','clientName','clientPoints','targetUrl'].forEach(id => $(id).addEventListener('input', render));
+  render();
+  new ResizeObserver(render).observe(card);
+</script>
+</body>
+</html>
